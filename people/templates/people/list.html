@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Keeper</title>
+  <link rel="stylesheet" href="{% static 'people/style.css' %}">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="eyebrow">SQLite · Django</p>
+      <h1>Data Keeper</h1>
+      <p class="lede">Save a person, then open their name to see the stored record.</p>
+    </header>
+
+    <section class="panel">
+      <h2>Save someone</h2>
+      {# method="post" calls PersonListView.post. csrf_token is required on every POST. #}
+      <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+          <label>
+            {{ field.label }}
+            {{ field }}
+            {% if field.errors %}<span class="error">{{ field.errors|striptags }}</span>{% endif %}
+          </label>
+        {% endfor %}
+        <button type="submit">Save</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Everyone saved</h2>
+      {% if people %}
+        <ul class="people">
+          {% for person in people %}
+            <li>
+              <a href="{% url 'person_detail' person.pk %}">
+                <strong>{{ person.full_name }}</strong>
+                <span>{{ person.email }}{% if person.city %} · {{ person.city }}{% endif %}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty">No one saved yet.</p>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>

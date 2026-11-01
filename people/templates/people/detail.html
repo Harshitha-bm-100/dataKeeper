@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ person.full_name }}</title>
+  <link rel="stylesheet" href="{% static 'people/style.css' %}">
+</head>
+<body>
+  <main class="page">
+    <p class="eyebrow"><a href="{% url 'person_list' %}">Back to everyone</a></p>
+    <h1>{{ person.full_name }}</h1>
+    <dl>
+      <div><dt>Email</dt><dd>{{ person.email }}</dd></div>
+      <div><dt>Phone</dt><dd>{{ person.phone|default:"—" }}</dd></div>
+      <div><dt>City</dt><dd>{{ person.city|default:"—" }}</dd></div>
+      <div><dt>Notes</dt><dd>{{ person.notes|default:"—" }}</dd></div>
+      <div><dt>Saved</dt><dd>{{ person.created_at }}</dd></div>
+    </dl>
+  </main>
+</body>
+</html>
